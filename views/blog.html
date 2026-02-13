@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Blog</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <h1>Blog Page</h1>
+
+  <nav>
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+    <a href="/contact">Contact</a>
+    <a href="/blog">Blog</a>
+  </nav>
+
+  <div id="posts"></div>
+
+  <script>
+    fetch('/api/posts')
+      .then(response => response.json())
+      .then(data => {
+        const postsDiv = document.getElementById('posts');
+
+        data.forEach(post => {
+          const postElement = document.createElement('div');
+          postElement.innerHTML = `
+            <h2>${post.title}</h2>
+            <p>${post.content}</p>
+            <hr>
+          `;
+          postsDiv.appendChild(postElement);
+        });
+      })
+      .catch(err => {
+        console.error('Error fetching posts:', err);
+      });
+  </script>
+</body>
+</html>
